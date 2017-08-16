@@ -1,0 +1,230 @@
+/* Cwiczenie 1 - tekst */
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #8fecac;
+}
+
+h1 {
+	letter-spacing: 5px;
+	color: #2c289a;
+}
+
+h2 {
+	color: #00450f;
+}
+
+h3 {
+	color: #4722c1;
+}
+
+p {
+	text-indent: 50px;
+}
+
+p.no_indent {
+	text-indent: 0px;
+}
+
+/* Cwiczenie 2 - tabele */
+
+table, thead, tfoot, tbody, td, th, tr {
+	border-collapse: collapse;
+	border: 2px solid #4b0076;
+}
+
+table {
+	table-layout: fixed;
+	word-wrap: break-word;
+	width: 20em;
+}
+
+thead {
+	background: #3e2ee5;
+	color: #63e52e;
+	font-family: "Courier New", Courier, monospace;
+	text-decoration: underline;
+	text-transform: uppercase;
+}
+
+tfoot {
+	background: #7e181e;
+}
+
+tbody tr:nth-child(odd) {
+	background: #dfb581;
+}
+
+tbody tr:nth-child(even) {
+	background: #df8181;
+}
+
+.table_center {
+	text-align: center;
+}
+
+.table_right {
+	text-align: right;
+}
+
+.table_left {
+	text-align: left;
+}
+
+/* Cwiczenie 3 - listy */
+ol {
+	list-style-type: upper-roman;
+}
+
+ol ol {
+	list-style-type: lower-roman;
+}
+
+ol ol ol {
+	list-style-type: lower-greek;
+}
+
+/* Cwiczenie 4 - obrazy */
+img.img_right {
+	float: right;
+	margin: 0px 0px 0px 0px;
+}
+
+img.img_left {
+	float: left;
+	margin: 10px 25px 0px 0px;
+}
+
+/* Cwiczenie 5 - uklad strony */
+#cont {
+	margin: 0 auto;
+	max-width: 1160px;
+}
+#tresc {
+	float: left;
+	max-width: 960px;
+	border-left: 200px solid #1b8d1d;
+	background-color: #48db75;
+	padding: 0px 10px;
+}
+
+#title {
+	text-align: center;
+	width: 100%;
+}
+
+/* menu gorne */
+#spis_strony {
+	float: left;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+#spis_strony ul, #spis_strony ul li {
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#spis_strony ul {
+	clear: both;
+	float: left;
+	position: relative;
+	left: 50%;
+	text-align: center;
+}
+
+#spis_strony ul li {
+	float: left;
+	position: relative;
+	right: 50%;
+	border-width: 0 1px 1px 1px;
+	border-style: solid;
+	border-color: transparent #223fcc #223fcc #22aecc;
+}
+
+#spis_strony ul a:link, #spis_strony ul a:visited {
+	width: 300px;
+	text-decoration: none;
+	display: block;
+	text-align: center;
+	padding: 5px 0;
+	font-weight: bold;
+	background-color: #8f22cc;
+	color: #a4ecca;
+	border-top: 10px solid #7522cc;
+}
+
+#spis_strony ul a:hover {
+	background-color: #b064db;
+	color: #ffffff;
+	border-top: 20px solid #8238d1;
+}
+
+/* menu boczne */
+#menu {
+	position: relative;
+	width: 200px;
+	margin-right: -200px;
+	float: left;
+}
+
+#menu ul {
+	position: fixed;
+}
+
+#menu ul, #menu ul li {
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#menu ul li {
+	border-bottom: 1px solid #223fcc;
+}
+
+#menu ul a:link, #menu ul a:visited {
+	display: block;
+	width: 176px;
+	text-decoration: none;
+	padding: 7px;
+	font-weight: bold;
+	background-color: #8f22cc;
+	color: #a4ecca;
+	border-left: 10px solid #7522cc;
+}
+
+#menu ul a:hover {
+	width: 166px;
+	background-color: #b064db;
+	color: #ffffff;
+	border-left: 20px solid #8238d1;
+}
+
+#menu ul a.current:link, #menu ul a.current:visited {
+	width: 186px;
+	background-color: #27103e;
+	color: #a4ecca;
+	border-left: 0px;
+}
+
+#menu ul a.current:hover {
+	width: 186px;
+	background-color: #8238d1;
+	color: #ffffff;
+}
+
+/* Cwiczenie 6 - pseudoklasy i pseudoelementy */
+/* Czesc dotyczaca zmiany wygladu elementow menu znajduje sie w poprzednim cwiczeniu */
+#menu a:link, #menu a:visited, #menu a:hover, #menu a:active, #spis_strony a:link, #spis_strony a:visited, #spis_strony a:hover, #spis_strony a:active {
+	cursor: default;
+}
+
+p::first-letter {
+	font-size: 200%;
+	color: #1b348d;
+}

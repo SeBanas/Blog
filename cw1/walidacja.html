@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ćwiczenie 1 - Walidacja formularzy</title>
+	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+</head>
+
+<body>
+<form method="post" action="lista_plikow.php" enctype="multipart/form-data" onsubmit="return checkForm(this)">
+	Czas: <input type="text" name="time" id="time" /><br/>
+	Data: <input type="text" name="date" id="date" /><br/>
+	Dodaj pliki:<br/><input type="file" name="file" onchange="multiFiles(this)" /><br/>
+	<div id="container"></div>
+	<input type="submit" value="Submit"/>
+</form>
+
+<br/><br/>
+<a href="../index.html">Powrót do strony głównej</a>
+
+<script type="text/javascript">
+// Ustawianie czasu w formularzu
+function setTime() {
+	var now = new Date(),
+	h = now.getHours(), // Przypisanie do zmiennych kolejno: godziny, minuty, roku, miesiaca, dnia
+	m = now.getMinutes(),
+	y = now.getFullYear(),
+	month = now.getMonth() + 1, // +1, bo miesiace sa indeksowane od 0 do 11
+	d = now.getDate();
+  
+	if (h < 10) { h = "0" + h; } // Dlatego, ze godziny, minuty, miesiace i dni jednocyfrowe sa zwracane jako jedna cyfra,
+				     // wiec trzeba im dodac 0 na poczatku.
+	if (m < 10) { m = "0" + m; }
+	if (month < 10) { month = "0" + month; }
+	if (d < 10) { d = "0" + d; }
+
+	document.getElementById("time").value = h + ":" + m;  // Wpisanie do elementu formularza, w ktorym ma byc czas, aktualnego czasu w formacie HH:II
+							      // II to minuty
+	document.getElementById("date").value = y + "-" + month + "-" + d; // Wpisanie do elementu formularza, w ktorym ma byc data, aktualnej daty
+									   // w formacie YYYY:MM:DD
+}
+
+setTime(); // Wywolanie funkcji ustawiania czasu
+
+
+// Sprawdzanie wpisanego do formularza czasu
+function checkTime(form) {
+	var regex = /^(\d{2}):(\d{2})$/, // Wyrazenie regularne reprezentujace np. 01:34
+	check = form.time.value.match(regex); // Stworzenie tablicy wynikow porownania wyrazenia regularnego z zawartoscia formularza czasu
+
+	if (form.time.value != "") { // Jesli wpisano czas w odpowiednie miejsce formularza
+		if (!check) { // Jesli wpisany czas nie odpowiada formatowi HH:II
+			return false;
+		}
+		if (check[1] > 23) { // Jesli wpisane godziny sa wieksze od 23
+			return false;
+		}
+		if (check[2] > 59) { // Jesli wpisane minuty sa wieksze od 59
+			return false;
+		}
+	} else { // Jesli nie wpisano czasu w odpowiednie miejsce formularza
+		return false;
+	}
+	return true; // Jak wszystko OK (poprawny czas) to zwrocenie true.
+}
+
+// Sprawdzanie wpisanej do formularza daty
+function checkDate(form) {
+	var regex = /^(\d{4})-(\d{2})-(\d{2})$/, // Wyrazenie regularne reprezentujace np. 2915-75-99
+	check = form.date.value.match(regex); // Stworzenie tablicy wynikow porownania wyrazanie regularnego z zawartoscia formularza daty
+
+	if (form.date.value != "") { // Jesli wpisano date
+		if (!check) { // Jesli wpisana data nie odpowiada formatowi YYYY-MM-DD
+			return false;
+		}
+
+		var year = check[1], // Dla zwiekszenia czytelnosci kodu przypisanie zmiennym year, month, day odpowiednich elementow tablicy check
+		month = check[2],
+		day = check[3];
+
+		if (year < 1) { // Jesli wpisany rok jest mniejszy od 1
+			return false;
+		}
+		if (month > 12) { // Jesli wpisany miesiac jest wiekszy od 12
+			return false;
+		}
+		if (month == 2) { // Jesli wpisano miesiac LUTY
+			if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) { // Sprawdzenie czy wpisany rok to rok przestepny
+				if (day > 29) { // Jesli rok przestepny i wpisany dzien lutego wiekszy od 29
+					return false;
+				}
+			} else {
+				if (day > 28) { // Jesli nie rok przestepny i wpisany dzien lutego wiekszy od 28
+					return false;
+				}
+			}
+		}
+		if (month == 4 || month == 6 || month == 9 || month == 11) { // Jesli wpisany miesiac ma max 30 dni
+			if (day > 30) { // Jesli ilosc wpisanych dni wieksza od 30
+				return false;
+			}
+		}
+		if (day > 31) { // Jesli wpisany miesiac ma max 31 dni i wpisano wiecej niz 31 dni
+			return false;
+		}
+	} else { // Jesli nie wpisano daty
+		return false;
+	}
+	return true; // Jak wszystko OK to true
+}
+
+// Funkcja sprawdzajaca poprawnosc formularza
+function checkForm(form) {
+	if (!checkTime(form) && !checkDate(form)) { // Jesli nie zgadza sie i czas i data
+		alert("Zły format czasu i daty lub nieprawidłowy czas/data!");
+		setTime(); // Ustawienie od nowa aktualnego czasu i daty
+		return false;
+	} else if (!checkTime(form)) { // Jesli nie zgadza sie tylko czas
+		alert("Zły format czasu lub nieprawidłowy czas!");
+		setTime(); 
+		return false;
+	} else if (!checkDate(form)) { // Jesli nie zgadza sie tylko data
+		alert("Zły format daty lub nieprawidłowa data!");
+		setTime();
+		return false;
+	}
+	alert("Formularz wypełniony poprawnie!"); // Sukces
+	return true;
+}
+
+// Dodawanie nieokreslonej liczby plikow
+function multiFiles(form) {
+	var container = document.getElementById("container"), // Pobranie kontenera zawierajacego inputy typu file
+	number = container.children.length, // Pobranie ilosci wszystkich znacznikow w kontenerze
+	files = number / 2; // Pobranie tylko ilosci inputow file (przez dwa bo przy tworzeniu kolejnego inputa dodawany jest takze znacznik <br/>
+	
+	for (var i = 0; i < number; i += 2) { // Sprawdzenie, czy do ktoregos z dostepnych inputow file nie podano pliku
+					      // (zapobiegniecie dublowaniu sie niewykorzystanych inputow)
+		if (container.children[i].value == "") {
+			return;
+		}
+	}
+
+	var input = document.createElement("input"); // Stworzenie elementu input
+	input.type = "file"; // Ustawienie atrybutu type inputa na "file"
+	input.name = "file" + files; // Ustawienie nazwy inputa na "file + ilosc inputow file"
+	input.onchange = function() { multiFiles(this); }; // Ustawienie atrybutu onchange nowego inputa na odpowiednia wartosc
+	container.appendChild(input); // Dodanie stworzonego elementu
+	container.appendChild(document.createElement("br")); // Dodanie znacznika <br/>
+}
+</script>
+</body>
+</html>
